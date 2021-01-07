@@ -1,0 +1,17 @@
+spring:
+  redis:
+    host: localhost
+    port: 6379
+    password: macula@^cloud$
+    database: 1
+  cloud:
+    stream:
+      rocketmq:
+        binder:
+          name-server: localhost:9876
+      default-binder: rocketmq
+      bindings:
+        stock-output:
+          group: scmp-cloud-stock
+          destination: scmp-cloud-stock-api
+          content-type: application/json

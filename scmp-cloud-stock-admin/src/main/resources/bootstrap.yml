@@ -1,0 +1,71 @@
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      initial-size: 0
+      max-active: 100
+      min-idle: 0
+      time-between-eviction-runs-millis: 60000
+      time-between-connect-error-millis: 500
+      min-evictable-idle-time-millis: 1800000
+      max-evictable-idle-time-millis: 25200000
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  mvc:
+    static-path-pattern: /**
+  resources:
+    static-locations: classpath:/static,classpath:/public,classpath:/resources,classpath:/META-INF/resources,file:/dist
+  cloud:
+    config:
+      enabled: false
+management:
+  endpoint:
+    health:
+      show-details: ALWAYS
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+logging:
+  pattern:
+    file: '%d %file:%line %p - %m%n'
+    console: '%d %file:%line %p - %m%n'
+  level:
+    ROOT: INFO
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 30000
+ribbon:
+  ReadTimeout: 15000
+  ConnectTimeout: 15000
+buildrun:
+  data:
+    path: /data
+choerodon:
+  saga:
+    consumer:
+      enabled: true # 启动消费端
+  schedule:
+    consumer:
+      enabled: true
+      thread-num: 5
+      poll-interval-ms: 1000
+  resource:
+    jwt:
+      ignore: /public/**, /favicon.ico
+macula:
+  cloud:
+    security:
+      oauth2_login: true
+      jwt-key: choerodon
+jasypt:
+  encryptor:
+    password: macula@^cloud$
+    algorithm: PBEWithMD5AndDES

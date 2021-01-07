@@ -1,0 +1,96 @@
+<seed>
+    <service name="base-service">
+        <table name="iam_permission">
+            <record externalId="buildrun.route.top.stock_admin_mgt">
+                <field name="id" primary="true"></field>
+                <field name="code" unique="true">buildrun.route.top.stock_admin_mgt</field>
+                <field name="path">/stock_admin_mgt</field>
+                <field name="service_code">scmp-cloud-stock-admin</field>
+                <field name="resource_level">site</field>
+                <field name="description">库存中心路由</field>
+                <field name="permission_type">page</field>
+                <field name="is_public_access">0</field>
+                <field name="is_login_access">0</field>
+                <field name="is_within">0</field>
+            </record>
+
+            <record externalId="buildrun.route.menu.stock_admin_stock_mgt">
+                <field name="id" primary="true"></field>
+                <field name="code" unique="true">buildrun.route.menu.stock_admin_stock_mgt</field>
+                <field name="path">/stock_stock_mgt</field>
+                <field name="service_code">scmp-cloud-stock-admin</field>
+                <field name="resource_level">site</field>
+                <field name="description">库存管理路由</field>
+                <field name="permission_type">page</field>
+                <field name="is_public_access">0</field>
+                <field name="is_login_access">0</field>
+                <field name="is_within">0</field>
+            </record>
+
+            <record externalId="buildrun.route.menu_item.stock_admin_stock_list">
+                <field name="id" primary="true"></field>
+                <field name="code" unique="true">buildrun.route.menu_item.stock_admin_stock_list</field>
+                <field name="path">/stock/stock-list</field>
+                <field name="service_code">scmp-cloud-stock-admin</field>
+                <field name="resource_level">site</field>
+                <field name="description">库存查询路由</field>
+                <field name="permission_type">page</field>
+                <field name="is_public_access">0</field>
+                <field name="is_login_access">0</field>
+                <field name="is_within">0</field>
+            </record>
+
+            <record externalId="buildrun.route.menu_item.stock_admin_stock_process_list">
+                <field name="id" primary="true"></field>
+                <field name="code" unique="true">buildrun.route.menu_item.stock_admin_stock_process_list</field>
+                <field name="path">/stock/stock-change</field>
+                <field name="service_code">scmp-cloud-stock-admin</field>
+                <field name="resource_level">site</field>
+                <field name="description">库存变更总览路由</field>
+                <field name="permission_type">page</field>
+                <field name="is_public_access">0</field>
+                <field name="is_login_access">0</field>
+                <field name="is_within">0</field>
+            </record>
+
+            <record externalId="buildrun.route.menu_item.stock_admin_check_list">
+                <field name="id" primary="true"></field>
+                <field name="code" unique="true">buildrun.route.menu_item.stock_admin_check_list</field>
+                <field name="path">/stock/check-list</field>
+                <field name="service_code">scmp-cloud-stock-admin</field>
+                <field name="resource_level">site</field>
+                <field name="description">库存使用查询</field>
+                <field name="permission_type">page</field>
+                <field name="is_public_access">0</field>
+                <field name="is_login_access">0</field>
+                <field name="is_within">0</field>
+            </record>
+
+            <record externalId="buildrun.route.menu.stock_admin_config_mgt">
+                <field name="id" primary="true"></field>
+                <field name="code" unique="true">buildrun.route.menu.stock_admin_config_mgt</field>
+                <field name="path">/stock/stock-setting</field>
+                <field name="service_code">scmp-cloud-stock-admin</field>
+                <field name="resource_level">site</field>
+                <field name="description">库存设置路由</field>
+                <field name="permission_type">page</field>
+                <field name="is_public_access">0</field>
+                <field name="is_login_access">0</field>
+                <field name="is_within">0</field>
+            </record>
+
+            <record externalId="buildrun.route.menu_item.stock_admin_sku_stock_list">
+                <field name="id" primary="true"></field>
+                <field name="code" unique="true">buildrun.route.menu_item.stock_admin_sku_stock_list</field>
+                <field name="path">/stock/sku-setting</field>
+                <field name="service_code">scmp-cloud-stock-admin</field>
+                <field name="resource_level">site</field>
+                <field name="description">SKU库存设置</field>
+                <field name="permission_type">page</field>
+                <field name="is_public_access">0</field>
+                <field name="is_login_access">0</field>
+                <field name="is_within">0</field>
+            </record>
+        </table>
+    </service>
+</seed>

@@ -1,0 +1,31 @@
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      initial-size: 0
+      max-active: 100
+      min-idle: 0
+      time-between-eviction-runs-millis: 60000
+      time-between-connect-error-millis: 500
+      min-evictable-idle-time-millis: 1800000
+      max-evictable-idle-time-millis: 25200000
+  jpa:
+    database: MYSQL
+  servlet:
+    multipart:
+      max-file-size: 10MB # 单个文件最大上传大小
+      max-request-size: 10MB # 总上传文件最大上传大小
+  mvc:
+    static-path-pattern: /**
+  resources:
+    static-locations: classpath:/static,classpath:/public,classpath:/resources,classpath:/META-INF/resources,file:/dist
+choerodon:
+  saga:
+    consumer:
+      enabled: true # 启动消费端
+  schedule:
+    consumer:
+      enabled: true # 启用任务调度消费端
+  resource:
+    jwt:
+      ignore: /public/**, /favicon.ico

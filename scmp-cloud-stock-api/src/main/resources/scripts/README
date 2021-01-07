@@ -1,0 +1,16 @@
+-- 初始值: initializeQty 
+-- 增加量: reducedQty 
+-- 库存可用量: balanceQty
+-- 库存预留量: reservedQty
+-- 库存释放量: releasedQty (reservedQty 转为 releasedQty，增加balanceQty)
+-- 库存已使用量: commitedQty  (reservedQty 转为 commitedQty)
+-- 库存履行量: fulfillmentQty
+-- 库存等式: initializeQty + increasedQty - reducedQty = balanceQty + reservedQty + commitedQty
+
+-- 库存信息:
+--                  KEY                                     initializeQty      increasedQty       reducedQty         balanceQty                reservedQty     releasedQty      commitedQty      fulfillmentQty
+--  20200923:18013-01:HC46                2000                             70                        100                      1700                              150                            30                        120                       80
+
+-- 预留信息:
+--                 KEY                                           hash                                                        value
+-- RESERVED:xxxxxxxxx(idx)            20200923:18013-01:HC46                           50

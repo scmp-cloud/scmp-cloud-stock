@@ -1,0 +1,30 @@
+.hidden-last {
+  tbody {
+    color: rgba(0, 0, 0, 0.65);
+    > tr {
+      > td:last-child {
+        //display: none;
+        > span:first-child {
+          text-align: left;
+          > button:first-child {
+            display: none;
+          }
+          > button:last-child {
+            margin-left: 0;
+          }
+
+        }
+      }
+    }
+    > tr.show {
+      > td:last-child {
+        //display: none;
+        > span:first-child {
+          > button:first-child {
+            display: block;
+          }
+        }
+      }
+    }
+  }
+}

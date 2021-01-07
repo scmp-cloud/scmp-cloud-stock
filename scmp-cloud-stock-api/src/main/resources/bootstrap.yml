@@ -1,0 +1,24 @@
+server:
+   port: 7081
+spring:
+   application:
+      name: scmp-cloud-stock-api
+   cloud:
+      nacos:
+        server-addr:  localhost:8848
+management:
+   endpoint:
+      health:
+         show-details: ALWAYS
+   server:
+      port: 9081
+   endpoints:
+      web:
+         exposure:
+            include: '*'
+logging:
+   pattern:
+      file: '%d %file:%line %p - %m%n'
+      console: '%d %file:%line %p - %m%n'
+   level:
+      ROOT: INFO

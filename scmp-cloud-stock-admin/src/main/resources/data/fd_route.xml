@@ -1,0 +1,15 @@
+<seed>
+	<service name="base-service">
+		<table name="fd_route">
+			<record externalId="scmp-cloud-stock-admin">
+				<field name="id" primary="true"></field>
+				<field name="service_code" unique="true">scmp-cloud-stock-admin</field>
+				<field name="backend_path">/stock/**</field>
+				<field name="frontend_path"></field>
+				<field name="strip_prefix">1</field>
+				<field name="sensitive_headers"></field>
+				<field name="route_id">scmp-cloud-stock-admin</field>
+			</record>
+		</table>
+	</service>
+</seed>

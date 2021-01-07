@@ -1,0 +1,41 @@
+# maven ignore
+target/
+*.versionsBackup
+
+# eclipse ignore
+.settings/
+.project
+.classpath
+
+# idea ignore
+.idea/
+*.ipr
+*.iml
+*.iws
+
+# temp ignore
+*.log
+*.cache
+*.diff
+*.patch
+*.tmp
+*.uploading.cfg
+/temp
+/tmp
+app.jar
+
+# system ignore
+.DS_Store
+Thumbs.db
+
+gitlabci/.generated
+
+lib
+node_modules
+package-lock.json
+config-local.js
+
+/bin
+working/
+dist
+/dev_jco_rfc.trc

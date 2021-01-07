@@ -1,0 +1,41 @@
+# Default values for scc-service
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# pod运行数量
+replicaCount: 1
+
+image:
+  # 镜像库地址
+  repository: registry.cn-shanghai.aliyuncs.com/scmp-cloud/scmp-cloud-stock-client
+  # 镜像拉取策略
+  pullPolicy: Always
+
+initDB:
+  # 是禁用始化数据库
+  disabled: true
+
+## springboot配置
+application:
+  spring:
+    datasource:
+      url: jdbc:mysql://localhost/scc-service?useUnicode=true&characterEncoding=utf-8&useSSL=false&useInformationSchema=true&remarks=true
+      username: root
+      password: root
+  eureka:
+    client:
+      serviceUrl:
+        defaultZone: http://register-server:8000/eureka/
+
+metrics:
+   path: /actuator/prometheus
+   group: spring-boot
+logs:
+   parser: spring-boot
+resources:
+# 收集应用的指标数据路径
+   limits:
+# 性能指标应用分组
+      memory: 1.5Gi
+   requests:
+      memory: 1Gi

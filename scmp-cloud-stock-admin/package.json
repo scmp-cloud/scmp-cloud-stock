@@ -1,0 +1,52 @@
+{
+  "name": "@buildrun/scmp-cloud-po-admin",
+  "version": "1.0.0",
+  "routeName": "stock",
+  "description": "",
+  "main": "./lib/index.js",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "start": "buildrun-front-boot start --config ./react/config.js",
+    "dist": "buildrun-front-boot dist --config ./react/config.js --external",
+    "compile": "buildrun-front-boot compile",
+    "lint-staged": "lint-staged",
+    "lint-staged:es": "eslint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@code.gobuildrun.com:operation-br-apps/buildrun-front-engine.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "peerDependencies": {
+    "@buildrun/boot": ">=1.0.0-master.0",
+    "@buildrun/br-e-master": ">=1.0.0-release-1.0.0.0",
+    "@buildrun/components": "1.0.0"
+  },
+  "dependencies": {
+    "eslint": "^6.8.0",
+    "react-grid-layout": "^0.18.3",
+    "react-iframe": "^1.8.0"
+  },
+  "devDependencies": {
+    "@buildrun/boot": "1.1.0",
+    "@buildrun/br-e-master": ">=1.0.0-release-1.0.0.0",
+    "@buildrun/components": "1.0.0",
+    "stylelint": "^10.1.0",
+    "stylelint-config-standard": "^19.0.0"
+  },
+  "lint-staged": {
+    "react/**/*.{js,jsx}": [
+      "npm run lint-staged:es"
+    ],
+    "react/**/*.less": "stylelint --syntax less"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  }
+}

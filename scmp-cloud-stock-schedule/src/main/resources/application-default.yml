@@ -1,0 +1,45 @@
+macula:
+  cloud:
+    security:
+      oauth2_login: true
+      public-urls: /**
+      jwt-key: choerodon
+      open-api:
+        openapi_stock: openapi_stock_secret
+spring:
+  datasource:
+    url: jdbc:mysql://10.87.140.74/db_stock_dev?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=CTT
+    username: dbu_stock_dev
+    password: abc_123
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: update
+  redis:
+    host: 10.87.140.81
+    port: 6381
+    password: redis%%sccdev321
+    database: 8
+  cloud:
+    stream:
+      rocketmq:
+        binder:
+          name-server: 10.87.132.63:9876;10.87.132.64:9876;10.87.132.65:9876
+          access-key: motest01
+          secret-key: motest01
+      default-binder: rocketmq
+      bindings:
+        stock-input:
+          group: GID_MO_TEST
+          destination: TOPIC_MO_TEST
+          content-type: application/json
+security:
+  oauth2:
+    client:
+      client-id: client
+      client-secret: secret
+      access-token-uri: ${OAUTH_SERVER}/oauth/token
+      user-authorization-uri: ${OAUTH_SERVER}/oauth/authorize
+    resource:
+      token-info-uri: ${OAUTH_SERVER}/oauth/check_token
+      user-info-uri: ${OAUTH_SERVER}/api/user

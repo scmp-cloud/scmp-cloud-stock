@@ -1,0 +1,81 @@
+<seed>
+    <service name="base-service">
+        <table name="iam_menu_permission">
+
+            <!--库存中心top菜单-->
+            <record externalId="buildrun.top.stock_admin_mgt_buildrun.route.top.stock_admin_mgt">
+                <field name="id" primary="true"></field>
+                <field name="menu_code" unique="true">buildrun.top.stock_admin_mgt</field>
+                <field name="permission_code" unique="true">buildrun.route.top.stock_admin_mgt</field>
+            </record>
+
+            <!--库存管理子菜单-->
+            <record externalId="buildrun.menu.stock_admin_stock_mgt_buildrun.route.menu.stock_admin_stock_mgt">
+                <field name="id" primary="true"></field>
+                <field name="menu_code" unique="true">buildrun.menu.stock_admin_stock_mgt</field>
+                <field name="permission_code" unique="true">buildrun.route.menu.stock_admin_stock_mgt</field>
+            </record>
+
+            <!--库存列表项-->
+            <record externalId="buildrun.menu_item.stock_admin_stock_list_buildrun.route.menu_item.stock_admin_stock_list">
+                <field name="id" primary="true"></field>
+                <field name="menu_code" unique="true">buildrun.menu_item.stock_admin_stock_list</field>
+                <field name="permission_code" unique="true">buildrun.route.menu_item.stock_admin_stock_list</field>
+            </record>
+
+            <!--库存使用查询-->
+            <record externalId="buildrun.menu_item.stock_admin_check_list_buildrun.route.menu_item.stock_admin_check_list">
+                <field name="id" primary="true"></field>
+                <field name="menu_code" unique="true">buildrun.menu_item.stock_admin_check_list</field>
+                <field name="permission_code" unique="true">buildrun.route.menu_item.stock_admin_check_list</field>
+            </record>
+
+            <!--库存变更总览-->
+            <record externalId="buildrun.menu_item.stock_admin_stock_process_list_buildrun.route.menu_item.stock_admin_stock_process_list">
+                <field name="id" primary="true"></field>
+                <field name="menu_code" unique="true">buildrun.menu_item.stock_admin_stock_process_list</field>
+                <field name="permission_code" unique="true">buildrun.route.menu_item.stock_admin_stock_process_list
+                </field>
+            </record>
+
+            <!--库存设置-->
+            <record externalId="buildrun.menu.stock_admin_config_mgt_buildrun.route.menu.stock_admin_config_mgt">
+                <field name="id" primary="true"></field>
+                <field name="menu_code" unique="true">buildrun.menu.stock_admin_config_mgt</field>
+                <field name="permission_code" unique="true">buildrun.route.menu.stock_admin_config_mgt</field>
+            </record>
+
+            <!--SKU库存设置-->
+            <record externalId="buildrun.menu_item.stock_admin_sku_stock_list_buildrun.route.menu_item.stock_admin_sku_stock_list">
+                <field name="id" primary="true"></field>
+                <field name="menu_code" unique="true">buildrun.menu_item.stock_admin_sku_stock_list</field>
+                <field name="permission_code" unique="true">buildrun.route.menu_item.stock_admin_sku_stock_list</field>
+            </record>
+
+            <record externalId="buildrun.menu_item.stock_admin_sku_stock_list_scmp-cloud-stock-admin.dc_goods.list">
+                <field name="id" primary="true"></field>
+                <field name="menu_code" unique="true">buildrun.menu_item.stock_admin_sku_stock_list</field>
+                <field name="permission_code" unique="true">scmp-cloud-stock-admin.dc_goods.list</field>
+            </record>
+
+            <record externalId="buildrun.menu_item.stock_admin_sku_stock_list_scmp-cloud-stock-admin.dc_goods.query">
+                <field name="id" primary="true"></field>
+                <field name="menu_code" unique="true">buildrun.menu_item.stock_admin_sku_stock_list</field>
+                <field name="permission_code" unique="true">scmp-cloud-stock-admin.dc_goods.query</field>
+            </record>
+
+            <record externalId="buildrun.menu_item.stock_admin_sku_stock_list_scmp-cloud-stock-admin.dc_goods.findAll">
+                <field name="id" primary="true"></field>
+                <field name="menu_code" unique="true">buildrun.menu_item.stock_admin_sku_stock_list</field>
+                <field name="permission_code" unique="true">scmp-cloud-stock-admin.dc_goods.findAll</field>
+            </record>
+
+            <record externalId="buildrun.menu_item.stock_admin_sku_stock_list_scmp-cloud-stock-admin.dc_goods.addOne">
+                <field name="id" primary="true"></field>
+                <field name="menu_code" unique="true">buildrun.menu_item.stock_admin_sku_stock_list</field>
+                <field name="permission_code" unique="true">scmp-cloud-stock-admin.dc_goods.addOne</field>
+            </record>
+
+        </table>
+    </service>
+</seed>
