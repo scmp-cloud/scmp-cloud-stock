@@ -1,28 +1,10 @@
 server:
   port: 7082
-eureka:
-  instance:
-    preferIpAddress: true
-    leaseRenewalIntervalInSeconds: 10
-    leaseExpirationDurationInSeconds: 30
-    metadata-map:
-      VERSION: v1
-  client:
-    serviceUrl:
-      defaultZone: http://macula:macula2019@10.87.132.22:31678/eureka
-    registryFetchIntervalSeconds: 10
 spring:
   application:
     name: scmp-cloud-stock-log
   cloud:
-    config:
-      enabled: false
-feign:
-  client:
-    config:
-      default:
-        connectTimeout: 10000
-        readTimeout: 60000
+    nacos:      server-addr: localhost:8848
 management:
   endpoint:
     health:
@@ -37,6 +19,4 @@ logging:
   pattern:
     file: '%d %file:%line %p - %m%n'
     console: '%d %file:%line %p - %m%n'
-buildrun:
-  data:
-    path: /data
+  level:    ROOT: INFO

@@ -24,7 +24,9 @@ public class InventoryEventListeningAdapter {
 		boolean result = false;
 		while (!result) {
 			try {
-				result = channel.stockOutputTopic().send(MessageBuilder.withPayload(event).setHeader(RocketMQHeaders.TAGS, event.getClazz()).build());
+				result = channel.stockOutputTopic().send(MessageBuilder.withPayload(event)
+						.setHeader(RocketMQHeaders.KEYS, event.getId())
+						.setHeader(RocketMQHeaders.TAGS, event.getClazz()).build());
 			} catch (Exception ex) {
 				log.error("send RocketMQ error, ", ex);
 			}

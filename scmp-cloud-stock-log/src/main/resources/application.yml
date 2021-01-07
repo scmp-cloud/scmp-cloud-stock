@@ -11,21 +11,6 @@ spring:
       max-evictable-idle-time-millis: 25200000
   jpa:
     database: MYSQL
-  servlet:
-    multipart:
-      max-file-size: 10MB # 单个文件最大上传大小
-      max-request-size: 10MB # 总上传文件最大上传大小
-  mvc:
-    static-path-pattern: /**
-  resources:
-    static-locations: classpath:/static,classpath:/public,classpath:/resources,classpath:/META-INF/resources,file:/dist
-choerodon:
-  saga:
-    consumer:
-      enabled: true # 启动消费端
-  schedule:
-    consumer:
-      enabled: true # 启用任务调度消费端
-  resource:
-    jwt:
-      ignore: /public/**, /favicon.ico
+  web:
+    resources:
+      static-locations: classpath:/static,classpath:/public,classpath:/resources,classpath:/META-INF/resources,file:/dist 

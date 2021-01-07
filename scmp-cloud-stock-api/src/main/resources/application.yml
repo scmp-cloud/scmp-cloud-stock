@@ -13,5 +13,5 @@ spring:
       bindings:
         stock-output:
           group: scmp-cloud-stock
-          destination: scmp-cloud-stock-api
+          destination: scmp-cloud-stock-topic
           content-type: application/json
