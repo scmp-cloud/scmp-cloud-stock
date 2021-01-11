@@ -3,7 +3,7 @@ package org.macula.cloud.stock.test;
 import java.math.BigDecimal;
 
 import org.junit.jupiter.api.Test;
-import org.macula.cloud.stock.StockApplicationTest;
+import org.macula.cloud.stock.StockApiApplication;
 import org.macula.cloud.stock.service.InventoryCenterService;
 import org.macula.cloud.stock.vo.BalanceQuantity;
 import org.macula.cloud.stock.vo.BalanceRequest;
@@ -14,7 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@SpringBootTest(classes = { StockApplicationTest.class })
+@SpringBootTest(classes = { StockApiApplication.class })
 public class RefreshInventoryRequestTest {
 
 	@Autowired

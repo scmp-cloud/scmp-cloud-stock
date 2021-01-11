@@ -9,7 +9,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 import org.junit.jupiter.api.Test;
-import org.macula.cloud.stock.StockApplicationTest;
+import org.macula.cloud.stock.StockApiApplication;
 import org.macula.cloud.stock.service.InventoryCenterService;
 import org.macula.cloud.stock.vo.InventoryRequest;
 import org.macula.cloud.stock.vo.InventoryResponse;
@@ -20,7 +20,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@SpringBootTest(classes = { StockApplicationTest.class })
+@SpringBootTest(classes = { StockApiApplication.class })
 public class OrderInventoryRequestTest {
 
 	@Autowired

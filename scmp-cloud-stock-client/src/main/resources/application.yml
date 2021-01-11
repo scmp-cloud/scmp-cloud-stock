@@ -1,31 +1,39 @@
+server:
+  port: 7086
 spring:
-  datasource:
-    type: com.alibaba.druid.pool.DruidDataSource
-    druid:
-      initial-size: 0
-      max-active: 100
-      min-idle: 0
-      time-between-eviction-runs-millis: 60000
-      time-between-connect-error-millis: 500
-      min-evictable-idle-time-millis: 1800000
-      max-evictable-idle-time-millis: 25200000
-  jpa:
-    database: MYSQL
-  servlet:
-    multipart:
-      max-file-size: 10MB # 单个文件最大上传大小
-      max-request-size: 10MB # 总上传文件最大上传大小
-  mvc:
-    static-path-pattern: /**
-  resources:
-    static-locations: classpath:/static,classpath:/public,classpath:/resources,classpath:/META-INF/resources,file:/dist
-choerodon:
-  saga:
-    consumer:
-      enabled: true # 启动消费端
-  schedule:
-    consumer:
-      enabled: true # 启用任务调度消费端
-  resource:
-    jwt:
-      ignore: /public/**, /favicon.ico
+  application:
+    name: scmp-cloud-stock-client
+  cloud:
+    stream:
+      rocketmq:
+        binder:
+          name-server: localhost:9876
+      default-binder: rocketmq
+      bindings:
+        sendStockMessage-out-0:
+          destination: person-event
+          binder: rocketmq
+        receiveStockMessage-in-0:
+          binder: rocketmq
+          group: scmp-cloud-stock
+          destination: person-event
+        receiveStockMessage2-in-0:
+          binder: rocketmq
+          group: scmp-cloud-stock2
+          destination: person-event      function:        definition: sendStockMessage;receiveStockMessage;receiveStockMessage2
+management:
+  endpoint:
+    health:
+      show-details: ALWAYS
+  server:
+    port: 9086
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+logging:
+  pattern:
+    file: "%d %file:%line %p - %m%n"
+    console: "%d %file:%line %p - %m%n"
+  level:
+    ROOT: INFO

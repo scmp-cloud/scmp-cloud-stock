@@ -11,7 +11,8 @@ spring:
           name-server: localhost:9876
       default-binder: rocketmq
       bindings:
-        stock-output:
+        stock-out-0:
+          binder: rocketmq
           group: scmp-cloud-stock
           destination: scmp-cloud-stock-topic
           content-type: application/json

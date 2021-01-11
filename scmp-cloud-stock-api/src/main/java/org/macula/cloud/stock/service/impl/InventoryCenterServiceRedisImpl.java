@@ -1,4 +1,4 @@
-package org.macula.cloud.stock.service;
+package org.macula.cloud.stock.service.impl;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -11,13 +11,16 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.rocketmq.spring.support.RocketMQHeaders;
 import org.macula.cloud.stock.event.InventoryCommitEvent;
+import org.macula.cloud.stock.event.InventoryEvent;
 import org.macula.cloud.stock.event.InventoryFulfillmentEvent;
 import org.macula.cloud.stock.event.InventoryReduceEvent;
 import org.macula.cloud.stock.event.InventoryRefreshEvent;
 import org.macula.cloud.stock.event.InventoryReleaseEvent;
 import org.macula.cloud.stock.event.InventoryReserveEvent;
 import org.macula.cloud.stock.exception.StockException;
+import org.macula.cloud.stock.service.InventoryCenterService;
 import org.macula.cloud.stock.util.InventoryUtils;
 import org.macula.cloud.stock.vo.BalanceQuantity;
 import org.macula.cloud.stock.vo.BalanceRequest;
@@ -25,11 +28,11 @@ import org.macula.cloud.stock.vo.BalanceResponse;
 import org.macula.cloud.stock.vo.InventoryRequest;
 import org.macula.cloud.stock.vo.InventoryResponse;
 import org.macula.cloud.stock.vo.ProductQuantity;
-import org.springframework.beans.BeansException;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
+import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -40,7 +43,9 @@ import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
-public class InventoryCenterServiceRedisImplement implements InventoryCenterService, ApplicationContextAware {
+public class InventoryCenterServiceRedisImpl implements InventoryCenterService {
+
+	private static final String BindingName = "stock-out-0";
 
 	private StringRedisTemplate stringRedisTemplate;
 	private DefaultRedisScript<String> stockReserveScript;
@@ -51,9 +56,9 @@ public class InventoryCenterServiceRedisImplement implements InventoryCenterServ
 	private DefaultRedisScript<String> stockReduceScript;
 	private DefaultRedisScript<String> stockRefreshScript;
 	private DefaultRedisScript<String> stockStatusScript;
+	private StreamBridge streamBridge;
 
 	private ObjectMapper objectMapper = new ObjectMapper();
-	private ApplicationContext applicationContext;
 
 	private static final String STATUS = "status";
 
@@ -97,7 +102,7 @@ public class InventoryCenterServiceRedisImplement implements InventoryCenterServ
 		} finally {
 			event.setResponse(response);
 			event.markPublished();
-			applicationContext.publishEvent(event);
+			sendEventAsMessage(event);
 		}
 		return response;
 	}
@@ -125,7 +130,7 @@ public class InventoryCenterServiceRedisImplement implements InventoryCenterServ
 		} finally {
 			event.setResponse(response);
 			event.markPublished();
-			applicationContext.publishEvent(event);
+			sendEventAsMessage(event);
 		}
 		return response;
 	}
@@ -153,7 +158,7 @@ public class InventoryCenterServiceRedisImplement implements InventoryCenterServ
 		} finally {
 			event.setResponse(response);
 			event.markPublished();
-			applicationContext.publishEvent(event);
+			sendEventAsMessage(event);
 		}
 		return response;
 	}
@@ -193,7 +198,7 @@ public class InventoryCenterServiceRedisImplement implements InventoryCenterServ
 		} finally {
 			event.setResponse(response);
 			event.markPublished();
-			applicationContext.publishEvent(event);
+			sendEventAsMessage(event);
 		}
 		return response;
 	}
@@ -221,7 +226,7 @@ public class InventoryCenterServiceRedisImplement implements InventoryCenterServ
 		} finally {
 			event.setResponse(response);
 			event.markPublished();
-			applicationContext.publishEvent(event);
+			sendEventAsMessage(event);
 		}
 		return response;
 	}
@@ -249,7 +254,7 @@ public class InventoryCenterServiceRedisImplement implements InventoryCenterServ
 		} finally {
 			event.setResponse(response);
 			event.markPublished();
-			applicationContext.publishEvent(event);
+			sendEventAsMessage(event);
 		}
 		return response;
 	}
@@ -316,7 +321,7 @@ public class InventoryCenterServiceRedisImplement implements InventoryCenterServ
 		} finally {
 			event.setResponse(response);
 			event.markPublished();
-			applicationContext.publishEvent(event);
+			sendEventAsMessage(event);
 		}
 		return response;
 	}
@@ -435,9 +440,16 @@ public class InventoryCenterServiceRedisImplement implements InventoryCenterServ
 		return InventoryResponse.success(request);
 	}
 
-	@Override
-	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-		this.applicationContext = applicationContext;
+	/**
+	 * 构建MQ消息并发送
+	 * @param <T>
+	 * @param event
+	 * @return
+	 */
+	protected void sendEventAsMessage(InventoryEvent event) {
+		Message<InventoryEvent> message = MessageBuilder.withPayload(event).setHeader(RocketMQHeaders.KEYS, event.getId())
+				.setHeader(RocketMQHeaders.TAGS, event.getClazz()).build();
+		streamBridge.send(BindingName, message);
 	}
 
 }

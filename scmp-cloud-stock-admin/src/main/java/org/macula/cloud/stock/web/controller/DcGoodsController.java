@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
 
 @RestController
 @RequestMapping(value = "/v1/goods")
@@ -28,25 +28,25 @@ public class DcGoodsController {
 	}
 
 	@GetMapping
-	@ApiOperation("根据父id 查询商品分类列表")
+	@Operation(description = "根据父id 查询商品分类列表")
 	public ResponseEntity<List<LcCategory>> list(@RequestParam("parent_id") Long parentId) {
 		return new ResponseEntity<>(dcGoodsService.listByParentId(parentId), HttpStatus.OK);
 	}
 
 	@GetMapping("/{id}")
-	@ApiOperation("根据id查询商品类目")
+	@Operation(description = "根据id查询商品类目")
 	public ResponseEntity<LcCategory> query(@PathVariable("id") Long id) {
 		return new ResponseEntity<>(dcGoodsService.query(id), HttpStatus.OK);
 	}
 
 	@GetMapping("/all")
-	@ApiOperation("查询SKU配置表")
+	@Operation(description = "查询SKU配置表")
 	public ResponseEntity<List<StockRoute>> findAll() {
 		return new ResponseEntity<>(dcGoodsService.findAll(), HttpStatus.OK);
 	}
 
 	@PostMapping("/add")
-	@ApiOperation("保存SKU配置记录")
+	@Operation(description = "保存SKU配置记录")
 	public ResponseEntity<?> addOne(@RequestBody StockRoute sr) {
 		return new ResponseEntity<>(dcGoodsService.save(sr), HttpStatus.OK);
 	}

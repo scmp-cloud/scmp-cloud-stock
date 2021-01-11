@@ -1,0 +1,53 @@
+spring:
+  cloud:
+    stream:
+      rocketmq:
+        binder:
+          name-server: localhost:9876
+      default-binder: rocketmq
+      bindings:
+        onInventoryIncreaseEventListening-in-0:
+          group: scmp-cloud-stock-log
+          destination: scmp-cloud-stock-topic
+          content-type: application/json
+          consumer:
+            concurrency: 20
+        onInventoryReduceEventListening-in-0:
+          group: scmp-cloud-stock-log
+          destination: scmp-cloud-stock-topic
+          content-type: application/json
+          consumer:
+            concurrency: 20
+        onInventoryReserveEventListening-in-0:
+          group: scmp-cloud-stock-log
+          destination: scmp-cloud-stock-topic
+          content-type: application/json
+          consumer:
+            concurrency: 20
+        onInventoryCommitEventListening-in-0:
+          group: scmp-cloud-stock-log
+          destination: scmp-cloud-stock-topic
+          content-type: application/json
+          consumer:
+            concurrency: 20
+        onInventoryFulfillmentEventListening-in-0:
+          group: scmp-cloud-stock-log
+          destination: scmp-cloud-stock-topic
+          content-type: application/json
+          consumer:
+            concurrency: 20
+        onInventoryReleaseEventListening-in-0:
+          group: scmp-cloud-stock-log
+          destination: scmp-cloud-stock-topic
+          content-type: application/json
+          consumer:
+            concurrency: 20
+        onInventoryRefreshEventListening-in-0:
+          group: scmp-cloud-stock-log
+          destination: scmp-cloud-stock-topic
+          content-type: application/json
+          consumer:
+            concurrency: 20
+    function:
+      routing-expression: "'on' + headers['rocketmq_TAGS'] + 'Listening'"
+      definition: functionRouter

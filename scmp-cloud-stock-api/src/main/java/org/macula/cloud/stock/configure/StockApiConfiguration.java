@@ -9,7 +9,7 @@ import org.springframework.scripting.support.ResourceScriptSource;
 
 @Configuration
 @EnableConfigurationProperties({ StockConfig.class })
-public class StockConfiguration {
+public class StockApiConfiguration {
 
 	@Bean
 	public DefaultRedisScript<String> stockReserveScript() {
