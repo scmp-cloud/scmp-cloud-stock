@@ -19,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Component
 @AllArgsConstructor
+@SuppressWarnings("deprecation")
 public class InventoryEventListener {
 
 	private InventoryPersistanceService service;

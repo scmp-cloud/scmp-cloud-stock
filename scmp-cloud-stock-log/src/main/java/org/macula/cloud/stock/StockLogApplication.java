@@ -17,6 +17,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableJpaRepositories
 @SpringCloudApplication
 @EnableBinding(StockChannel.class)
+@SuppressWarnings("deprecation")
 public class StockLogApplication {
 
 	public static void main(String[] args) {
