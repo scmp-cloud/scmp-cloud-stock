@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -86,7 +87,9 @@ public class ImageCaptchService {
 		int viewportHeight = getWindowHeight(driver);
 
 		int scrollTimes = (pageHeight / viewportHeight) + (pageHeight % viewportHeight > 0 ? 1 : 0);
-		BufferedImage[] screenshotImages = new BufferedImage[scrollTimes];
+
+		int lastGap = scrollTimes * viewportHeight - pageHeight;
+		List<BufferedImage> images = new ArrayList<BufferedImage>();
 
 		for (int n = 0; n < scrollTimes; n++) {
 			scrollVertically(driver, viewportHeight * n);
@@ -94,12 +97,18 @@ public class ImageCaptchService {
 
 			File file = driver.getScreenshotAs(OutputType.FILE);
 			try {
-				screenshotImages[n] = ImageIO.read(file);
+				BufferedImage shot = ImageIO.read(file);
+				if (n == scrollTimes - 1 && lastGap > 0) {
+					// 最后一屏要裁剪，裁剪量要根据截屏实际图片大小与截屏窗口像素进行缩放
+					shot = shot.getSubimage(0, lastGap * shot.getHeight() / viewportHeight, shot.getWidth(),
+							shot.getHeight() - lastGap * shot.getHeight() / viewportHeight);
+				}
+				images.add(shot);
 			} catch (IOException e) {
 				// IGNORE
 			}
 		}
-		return ImageUtils.mergeImage(screenshotImages, 2);
+		return ImageUtils.mergeImage(images.toArray(new BufferedImage[0]), 2);
 	}
 
 	private void waitForScrolling(long scrollTimeout) {

@@ -3,8 +3,6 @@ server:
 spring:
   application:
     name: scmp-cloud-stock-exec
-  cloud:
-    nacos:      server-addr: localhost:8848
 management:
   endpoint:
     health:
