@@ -1,0 +1,5 @@
+{"properties": [{
+  "name": "macula.cloud.stock",
+  "type": "org.macula.cloud.stock.configure.StockConfig",
+  "description": "StockConfig Settings'"
+}]}

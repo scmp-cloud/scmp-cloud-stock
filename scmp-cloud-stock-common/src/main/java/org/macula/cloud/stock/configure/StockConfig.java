@@ -10,6 +10,8 @@ import lombok.Setter;
 @ConfigurationProperties(prefix = "macula.cloud.stock")
 public class StockConfig {
 
+	private String chromeLocation;
+
 	private String stockTopic;
 
 }

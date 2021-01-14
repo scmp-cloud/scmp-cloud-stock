@@ -6,7 +6,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +13,7 @@ import java.util.Map;
 import javax.imageio.ImageIO;
 
 import org.apache.commons.io.IOUtils;
+import org.macula.cloud.stock.configure.StockConfig;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.OutputType;
@@ -23,11 +23,19 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.stereotype.Service;
 
+import lombok.AllArgsConstructor;
+
 @Service
+@AllArgsConstructor
 public class ImageCaptchService {
 
-	public BufferedImage createImage(ImageCaptch settings) {
-		System.setProperty("webdriver.chrome.driver", "D:\\chromedriver.exe");
+	private StockConfig config;
+
+	/**
+	 * 抓取页面内容形成图片
+	 */
+	public BufferedImage createImage(ImageCaptch settings) throws IOException {
+		System.setProperty("webdriver.chrome.driver", config.getChromeLocation());
 		ChromeOptions chromeOptions = new ChromeOptions();
 		chromeOptions.addArguments("--headless");
 		chromeOptions.addArguments("--disable-gpu");
@@ -86,29 +94,25 @@ public class ImageCaptchService {
 		int pageHeight = getFullHeight(driver);
 		int viewportHeight = getWindowHeight(driver);
 
-		int scrollTimes = (pageHeight / viewportHeight) + (pageHeight % viewportHeight > 0 ? 1 : 0);
+		int pages = (pageHeight / viewportHeight) + (pageHeight % viewportHeight > 0 ? 1 : 0);
+		int lastPageOverlap = pages * viewportHeight - pageHeight;
 
-		int lastGap = scrollTimes * viewportHeight - pageHeight;
-		List<BufferedImage> images = new ArrayList<BufferedImage>();
+		BufferedImage[] images = new BufferedImage[pages];
 
-		for (int n = 0; n < scrollTimes; n++) {
-			scrollVertically(driver, viewportHeight * n);
+		for (int i = 0; i < pages; i++) {
+			scrollVertically(driver, viewportHeight * i);
 			waitForScrolling(settings.getTimeout());
 
 			File file = driver.getScreenshotAs(OutputType.FILE);
-			try {
-				BufferedImage shot = ImageIO.read(file);
-				if (n == scrollTimes - 1 && lastGap > 0) {
-					// 最后一屏要裁剪，裁剪量要根据截屏实际图片大小与截屏窗口像素进行缩放
-					shot = shot.getSubimage(0, lastGap * shot.getHeight() / viewportHeight, shot.getWidth(),
-							shot.getHeight() - lastGap * shot.getHeight() / viewportHeight);
-				}
-				images.add(shot);
-			} catch (IOException e) {
-				// IGNORE
+			BufferedImage shot = ImageIO.read(file);
+			if (i == pages - 1 && lastPageOverlap > 0) {
+				// 最后一屏要裁剪，裁剪量要根据截屏实际图片大小与截屏窗口像素进行缩放
+				int overlap = lastPageOverlap * shot.getHeight() / viewportHeight;
+				shot = shot.getSubimage(0, overlap, shot.getWidth(), shot.getHeight() - overlap);
 			}
+			images[i] = shot;
 		}
-		return ImageUtils.mergeImage(images.toArray(new BufferedImage[0]), 2);
+		return ImageUtils.mergeImage(images, 2);
 	}
 
 	private void waitForScrolling(long scrollTimeout) {
@@ -119,31 +123,43 @@ public class ImageCaptchService {
 		}
 	}
 
+	/**
+	 * 获取整页高度
+	 * @return
+	 */
 	public int getFullHeight(WebDriver driver) {
 		return ((Number) execute(PAGE_HEIGHT_JS, driver)).intValue();
 	}
 
+	/**
+	 * 获取整页宽度
+	 */
 	public int getFullWidth(WebDriver driver) {
 		return ((Number) execute(VIEWPORT_WIDTH_JS, driver)).intValue();
 	}
 
+	/**
+	 * 获取窗口高度
+	 */
 	public int getWindowHeight(WebDriver driver) {
 		return ((Number) execute(VIEWPORT_HEIGHT_JS, driver)).intValue();
 	}
 
-	protected int getCurrentScrollY(JavascriptExecutor js) {
-		return ((Number) js.executeScript("var scrY = window.scrollY;" + "if(scrY){return scrY;} else {return 0;}")).intValue();
-	}
-
+	/**
+	 * 屏幕滚动到
+	 */
 	protected void scrollVertically(JavascriptExecutor js, int scrollY) {
 		js.executeScript("scrollTo(0, arguments[0]); return [];", scrollY);
 	}
 
+	/**
+	 * 执行script语句
+	 */
 	@SuppressWarnings("unchecked")
 	public static <T> T execute(String path, WebDriver driver, Object... args) {
 		try {
 			String script = IOUtils.toString(currentThread().getContextClassLoader().getResourceAsStream(path), StandardCharsets.UTF_8);
-			//noinspection unchecked
+			// noinspection unchecked
 			return (T) ((JavascriptExecutor) driver).executeScript(script, args);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
