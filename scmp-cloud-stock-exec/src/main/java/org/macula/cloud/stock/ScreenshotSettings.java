@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ImageCaptch {
+public class ScreenshotSettings {
 
 	private String url;
 	private int width = 375;
@@ -16,8 +16,8 @@ public class ImageCaptch {
 	private String deviceName = "iPhone X";
 	private String removeClassNames;
 	private String removeIds;
-	private List<String> headers;
+	private List<String> arguments;
 	private List<Cookie> cookies;
 	private String userAgent;
-	private List<String> arguments;
+	private long size;
 }

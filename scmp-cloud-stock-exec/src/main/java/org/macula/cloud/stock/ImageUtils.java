@@ -1,46 +1,106 @@
 package org.macula.cloud.stock;
 
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
-import java.util.Iterator;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
 
 import javax.imageio.ImageIO;
-import javax.imageio.ImageReadParam;
-import javax.imageio.ImageReader;
-import javax.imageio.stream.ImageInputStream;
 
+import org.apache.commons.lang3.StringUtils;
+
+import net.coobird.thumbnailator.Thumbnails;
+
+/**
+ * 图像转换助手
+ */
 public class ImageUtils {
-
 	/**
-	 * @param srcFile源图片、targetFile截好后图片全名、startAcross 开始截取位置横坐标、StartEndlong开始截图位置纵坐标、width截取的长，hight截取的高
-	 * @Description:截图
-	 * @author:liuyc
-	 * @time:2016年5月27日 上午10:18:23
+	 * 地址图片转化为Base64格式
+	 * @param image
+	 * @param format
+	 * @return
 	 */
-	public static void cutImage(String srcFile, String targetFile, int startAcross, int StartEndlong, int width, int hight) throws Exception {
-		// 取得图片读入器
-		Iterator<ImageReader> readers = ImageIO.getImageReadersByFormatName("png");
-		ImageReader reader = readers.next();
-		// 取得图片读入流
-		InputStream source = new FileInputStream(srcFile);
-		ImageInputStream iis = ImageIO.createImageInputStream(source);
-		reader.setInput(iis, true);
-		// 图片参数对象
-		ImageReadParam param = reader.getDefaultReadParam();
-		Rectangle rect = new Rectangle(startAcross, StartEndlong, width, hight);
-		param.setSourceRegion(rect);
-		BufferedImage bi = reader.read(0, param);
-		ImageIO.write(bi, targetFile.split("\\.")[1], new File(targetFile));
+	public static String getBase64Image(String path) {
+		try (InputStream inputStream = ImageUtils.class.getResourceAsStream(path)) {
+			byte[] data = new byte[inputStream.available()];
+			inputStream.read(data);
+			Base64.Encoder encoder = Base64.getEncoder();
+			return encoder.encodeToString(data);
+		} catch (IOException e) {
+			// IGNORE
+		}
+		return null;
 	}
 
 	/**
-	 * @param files 要拼接的文件列表
-	 * @param type1 横向拼接， 2 纵向拼接
-	 * @Description:图片拼接 （注意：必须两张图片长宽一致哦）
+	 * 图片转化为Base64格式
+	 * @param image
+	 * @param format (eg:png)
+	 * @return
+	 */
+	public static String getBase64Image(BufferedImage image, String format) {
+		return getBase64Image(image, format, Long.MAX_VALUE);
+	}
+
+	/**
+	 * 图片转化为Base64格式
+	 * @param image
+	 * @param format (eg:png)
+	 * @return
+	 */
+	public static String getBase64Image(BufferedImage image, String format, long limitSize) {
+		try {
+			image = thumbnail(image, format, limitSize);
+			ByteArrayOutputStream out = new ByteArrayOutputStream();
+			ImageIO.write(image, format, out);
+			Base64.Encoder encoder = Base64.getEncoder();
+			return encoder.encodeToString(out.toByteArray());
+		} catch (IOException e) {
+			// IGNORE
+		}
+		return null;
+	}
+
+	/**
+	 * 
+	 * @param base64
+	 * @return
+	 */
+	public static String getImageMd5(String base64) {
+		Base64.Decoder decoder = Base64.getDecoder();
+		byte[] out = decoder.decode(base64);
+		MessageDigest md5;
+		try {
+			md5 = MessageDigest.getInstance("MD5");
+		} catch (NoSuchAlgorithmException e) {
+			return null;
+		}
+		byte[] digest = md5.digest(out);
+		return byte2hex(digest);
+	}
+
+	public static String byte2hex(byte[] b) {
+		StringBuffer hs = new StringBuffer();
+		String stmp = "";
+		for (int n = 0; n < b.length; n++) {
+			stmp = (Integer.toHexString(b[n] & 0XFF));
+			if (stmp.length() == 1) {
+				hs.append("0").append(stmp);
+			} else {
+				hs.append(stmp);
+			}
+		}
+		return StringUtils.upperCase(hs.toString());
+	}
+
+	/**
+	 * @param iamges 要拼接的图片清单
+	 * @param type: 1 横向拼接， 2 纵向拼接
+	 * @description 图片拼接  
 	 */
 	public static BufferedImage mergeImage(BufferedImage[] images, int type) {
 		if (images == null) {
@@ -91,23 +151,22 @@ public class ImageUtils {
 		return mergedImage;
 	}
 
-	/**
-	 * @Description:小图片贴到大图片形成一张图(合成)
-	 * @author:liuyc
-	 * @time:2016年5月27日 下午5:51:20
-	 */
-	public static final void overlapImage(String bigPath, String smallPath, String outFile) {
+	public static BufferedImage thumbnail(BufferedImage origin, String format, long targetSize) {
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		try {
-			BufferedImage big = ImageIO.read(new File(bigPath));
-			BufferedImage small = ImageIO.read(new File(smallPath));
-			Graphics2D g = big.createGraphics();
-			int x = (big.getWidth() - small.getWidth()) / 2;
-			int y = (big.getHeight() - small.getHeight()) / 2;
-			g.drawImage(small, x, y, small.getWidth(), small.getHeight(), null);
-			g.dispose();
-			ImageIO.write(big, outFile.split("\\.")[1], new File(outFile));
-		} catch (Exception e) {
-			throw new RuntimeException(e);
+			ImageIO.write(origin, format, out);
+		} catch (IOException e) {
+			// IGNORE
+		}
+		if (targetSize >= out.size()) {
+			return origin;
+		}
+
+		try {
+			double scale = (targetSize * 1.0 / out.size());
+			return Thumbnails.of(origin).scale(scale).asBufferedImage();
+		} catch (IOException e) {
+			return origin;
 		}
 	}
 }

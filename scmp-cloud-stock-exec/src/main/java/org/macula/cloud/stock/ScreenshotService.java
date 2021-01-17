@@ -27,14 +27,14 @@ import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
-public class ImageCaptchService {
+public class ScreenshotService {
 
 	private StockConfig config;
 
 	/**
 	 * 抓取页面内容形成图片
 	 */
-	public BufferedImage createImage(ImageCaptch settings) throws IOException {
+	public BufferedImage createImage(ScreenshotSettings settings) throws IOException {
 		System.setProperty("webdriver.chrome.driver", config.getChromeLocation());
 		ChromeOptions chromeOptions = new ChromeOptions();
 		chromeOptions.addArguments("--headless");
@@ -49,9 +49,9 @@ public class ImageCaptchService {
 			chromeOptions.addArguments(String.format("--user-agent=\"%s\"", settings.getUserAgent()));
 		}
 
-		List<String> headers = settings.getHeaders();
-		if (headers != null) {
-			chromeOptions.addArguments(headers);
+		List<String> arguments = settings.getArguments();
+		if (arguments != null) {
+			chromeOptions.addArguments(arguments);
 		}
 
 		if (settings.getDeviceName() != null) {
