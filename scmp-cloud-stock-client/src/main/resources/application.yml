@@ -7,7 +7,7 @@ spring:
     stream:
       rocketmq:
         binder:
-          name-server: localhost:9876
+          name-server: 192.168.200.189:9876
       default-binder: rocketmq
       bindings:
         sendStockMessage-out-0:
@@ -20,7 +20,11 @@ spring:
         receiveStockMessage2-in-0:
           binder: rocketmq
           group: scmp-cloud-stock2
-          destination: person-event      function:        definition: sendStockMessage;receiveStockMessage;receiveStockMessage2
+          destination: person-event
+        receiveCanalMessage-in-0:
+          binder: rocketmq
+          group: example
+          destination: example      function:        definition: sendStockMessage;receiveStockMessage;receiveStockMessage2;receiveCanalMessage
 management:
   endpoint:
     health:

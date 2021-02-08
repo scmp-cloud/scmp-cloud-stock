@@ -1,5 +1,10 @@
-server:
-  port: 8080
 spring:
-  application:
-    name: scmp-cloud-stock-admin
+  datasource:
+    url: jdbc:mysql://localhost:3306/scmp-stock?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=CTT
+    username: root
+    password: macula@^cloud$
+  redis:
+    host: localhost
+    port: 6379
+    password: macula@^cloud$
+    database: 3

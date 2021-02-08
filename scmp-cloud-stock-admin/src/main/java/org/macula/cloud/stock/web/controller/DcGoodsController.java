@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
+
 import io.swagger.v3.oas.annotations.Operation;
 
 @RestController
@@ -39,6 +41,7 @@ public class DcGoodsController {
 		return new ResponseEntity<>(dcGoodsService.query(id), HttpStatus.OK);
 	}
 
+	@SentinelResource
 	@GetMapping("/all")
 	@Operation(description = "查询SKU配置表")
 	public ResponseEntity<List<StockRoute>> findAll() {

@@ -16,3 +16,5 @@ spring:
           group: scmp-cloud-stock
           destination: scmp-cloud-stock-topic
           content-type: application/json
+
+    sentinel:      transport:        dashboard: localhost:9080

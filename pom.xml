@@ -36,8 +36,8 @@
 	</developers>
 
 	<properties>
-		<spring-cloud.version>2020.0.0</spring-cloud.version>
-		<spring-cloud-alibaba.version>2.2.3.RELEASE</spring-cloud-alibaba.version>
+		<spring-cloud.version>2020.0.1</spring-cloud.version>
+		<spring-cloud-alibaba.version>2.2.5.RELEASE</spring-cloud-alibaba.version>
 		<spring-boot-admin.version>2.3.0</spring-boot-admin.version>
 		<springfox.version>3.0.0</springfox.version>
 		<oauth2-version>2.5.0.RELEASE</oauth2-version>
@@ -65,6 +65,7 @@
 		<module>scmp-cloud-stock-log</module>
 		<module>scmp-cloud-stock-admin</module>
 		<module>scmp-cloud-stock-client</module>
+		<module>scmp-cloud-stock-benchmark</module>
 	</modules>
 
 	<dependencyManagement>
