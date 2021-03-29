@@ -1,9 +1,9 @@
 package org.macula.cloud.stock.web.service;
 
+import java.util.List;
+
 import org.macula.cloud.stock.domain.StockRoute;
 import org.macula.cloud.stock.web.pojo.LcCategory;
-
-import java.util.List;
 
 public interface DcGoodsService {
 

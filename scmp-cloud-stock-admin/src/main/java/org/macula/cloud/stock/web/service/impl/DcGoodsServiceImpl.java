@@ -1,6 +1,8 @@
 package org.macula.cloud.stock.web.service.impl;
 
-import lombok.AllArgsConstructor;
+import java.util.List;
+import java.util.Optional;
+
 import org.macula.cloud.stock.domain.StockRoute;
 import org.macula.cloud.stock.web.pojo.LcCategory;
 import org.macula.cloud.stock.web.repository.DcGoodsRepository;
@@ -8,8 +10,7 @@ import org.macula.cloud.stock.web.repository.StockRouteRepository;
 import org.macula.cloud.stock.web.service.DcGoodsService;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor

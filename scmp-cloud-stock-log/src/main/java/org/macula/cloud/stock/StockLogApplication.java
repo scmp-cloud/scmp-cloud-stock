@@ -2,7 +2,7 @@ package org.macula.cloud.stock;
 
 import org.macula.cloud.stock.stream.StockChannel;
 import org.springframework.boot.SpringApplication;
-import org.springframework.cloud.client.SpringCloudApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
@@ -15,7 +15,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableFeignClients
 @EnableJpaAuditing
 @EnableJpaRepositories
-@SpringCloudApplication
+@SpringBootApplication
 @EnableBinding(StockChannel.class)
 @SuppressWarnings("deprecation")
 public class StockLogApplication {

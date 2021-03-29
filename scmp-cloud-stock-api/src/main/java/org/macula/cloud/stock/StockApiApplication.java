@@ -1,13 +1,13 @@
 package org.macula.cloud.stock;
 
 import org.springframework.boot.SpringApplication;
-import org.springframework.cloud.client.SpringCloudApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 @EnableAsync
 @EnableScheduling
-@SpringCloudApplication
+@SpringBootApplication
 public class StockApiApplication {
 
 	public static void main(String[] args) {
